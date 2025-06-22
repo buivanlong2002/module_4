@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Sửa bài hát</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 40px;
+    }
+    h2 {
+      color: #333;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    a {
+      display: inline-block;
+      margin-top: 15px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<h2>Sửa thông tin bài hát</h2>
+<form th:action="@{/songs/update}" method="POST" th:object="${song}">
+  <input type="hidden" th:field="*{id}"/>
+
+  <label>Tên bài hát:</label>
+  <input type="text" th:field="*{name}"/>
+
+  <label>Nghệ sĩ:</label>
+  <input type="text" th:field="*{artist}"/>
+
+  <label>Thể loại:</label>
+  <input type="text" th:field="*{genre}"/>
+
+  <button type="submit">Cập nhật</button>
+</form>
+<a th:href="@{/songs}">Quay lại</a>
+</body>
+</html>

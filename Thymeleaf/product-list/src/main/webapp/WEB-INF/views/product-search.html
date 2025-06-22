@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tìm kiếm sản phẩm</title>
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+    form button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    form button:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    a {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      text-align: center;
+    }
+    a:hover {
+      background-color: #218838;
+    }
+    td a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    td a:hover {
+      text-decoration: underline;
+    }
+    .message {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<h1>Tìm kiếm sản phẩm</h1>
+
+<form action="/products/search" method="post">
+  <input type="text" name="name" placeholder="Nhập tên sản phẩm" />
+  <button type="submit">Tìm kiếm</button>
+</form>
+
+<!-- Hiển thị thông báo nếu không có sản phẩm tìm thấy -->
+<div th:if="${message}" class="message" th:text="${message}"></div>
+
+<!-- Kiểm tra nếu có sản phẩm và hiển thị bảng -->
+<table th:if="${not #lists.isEmpty(products)}">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Tên sản phẩm</th>
+    <th>Giá</th>
+    <th>Mô tả</th>
+    <th>Nhà sản xuất</th>
+    <th>Chức năng</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="product : ${products}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.price}"></td>
+    <td th:text="${product.description}"></td>
+    <td th:text="${product.manufacturer}"></td>
+    <td>
+      <a th:href="@{/products/details/{id}(id=${product.id})}">Xem</a> |
+      <a th:href="@{/products/edit/{id}(id=${product.id})}">Sửa</a> |
+      <a th:href="@{/products/delete/{id}(id=${product.id})}">Xóa</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/products">Quay lại danh sách sản phẩm</a>
+</body>
+</html>

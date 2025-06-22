@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        /* styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        #form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        form table td {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        form input[type="text"], form input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h3>Add Product</h3>
+<p>
+    <a th:href="@{/product}">
+        Back to product list
+    </a>
+</p>
+<div id="form">
+    <form th:action="@{/product/save}" th:object="${productForm}"
+          method="POST" novalidate="novalidate" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <table>
+            <tr>
+                <td><label for="name">Name</label></td>
+                <td><input type="text" id="name" th:field="*{name}"/></td>
+            </tr>
+            <tr>
+                <td><label for="description">Description</label></td>
+                <td><input type="text" id="description" th:field="*{description}"/></td>
+            </tr>
+            <tr>
+                <td><label for="image">Image</label></td>
+                <td><input type="file" id="image" th:field="*{image}"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Save"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

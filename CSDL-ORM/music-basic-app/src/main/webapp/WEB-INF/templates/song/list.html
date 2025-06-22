@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách bài hát</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 40px;
+        }
+        h2 {
+            color: #333;
+        }
+        a.add-new {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        a.add-new:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        audio {
+            width: 150px;
+            outline: none;
+        }
+        a.action-link {
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 8px;
+        }
+        a.action-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h2>Danh sách bài hát</h2>
+<a class="add-new" th:href="@{/songs/create}">Thêm bài hát mới</a>
+<table>
+    <tr>
+        <th>Tên</th>
+        <th>Nghệ sĩ</th>
+        <th>Thể loại</th>
+        <th>Nghe</th>
+        <th>Hành động</th>
+    </tr>
+    <tr th:each="song : ${songs}">
+        <td th:text="${song.name}"></td>
+        <td th:text="${song.artist}"></td>
+        <td th:text="${song.genre}"></td>
+        <td>
+            <audio controls>
+                <source th:src="@{${song.filePath}}" type="audio/mpeg"/>
+                Trình duyệt không hỗ trợ audio.
+            </audio>
+        </td>
+        <td>
+            <a class="action-link" th:href="@{'/songs/edit/' + ${song.id}}">Sửa</a> |
+            <a class="action-link" th:href="@{'/songs/delete/' + ${song.id}}" onclick="return confirm('Bạn có chắc chắn xóa?')">Xóa</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

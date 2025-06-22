@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Ảnh Của Ngày NASA</title>
+</head>
+<body>
+<h1>Ảnh Của Ngày</h1>
+<img id="img-of-the-day" alt="Ảnh Của Ngày">
+<form id="feedbackForm">
+    <label for="author">Tác giả:</label><br>
+    <input type="text" id="author" name="author" required><br><br>
+    <label for="feedback">Nhận xét:</label><br>
+    <textarea id="feedback" name="feedback" required></textarea><br><br>
+    <label for="rating">Đánh giá (1-5):</label><br>
+    <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+    <button type="submit">Gửi</button>
+</form>
+<div id="comments"></div>
+
+<script>
+    // Lấy ảnh của ngày từ NASA
+    let query = 'https://api.nasa.gov/planetary/apod?api_key=et4nn6vIDASse9gCOEMCtbCrwfGG0UkbZ3YI9PEE';
+    let request = new XMLHttpRequest();
+    request.open('GET', query);
+    request.onload = function() {
+        if (request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            document.getElementById('img-of-the-day').setAttribute('src', response.url);
+        }
+    };
+    request.send();
+
+    // Xử lý gửi form
+    document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const author = document.getElementById('author').value;
+        const feedback = document.getElementById('feedback').value;
+        const rating = document.getElementById('rating').value;
+        const date = new Date().toISOString().split('T')[0]; // Ngày hiện tại
+
+        // Gửi đến server
+        fetch('/submitFeedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ author, feedback, rating, date })
+        }).then(response => response.json())
+            .then(data => loadComments());
+    });
+
+    // Tải bình luận cho ngày hiện tại
+    function loadComments() {
+        const today = new Date().toISOString().split('T')[0];
+        fetch(`/getComments?date=${today}`)
+            .then(response => response.json())
+            .then(comments => {
+                const commentsDiv = document.getElementById('comments');
+                commentsDiv.innerHTML = '';
+                comments.forEach(comment => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `${comment.author}: ${comment.feedback} (Đánh giá: ${comment.rating})<br>
+                            Lượt thích: <span id="likes-${comment.id}">${comment.likes}</span>
+                            <button onclick="likeComment(${comment.id})">Thích</button>`;
+                    commentsDiv.appendChild(div);
+                });
+            });
+    }
+
+    // Thích bình luận
+    function likeComment(commentId) {
+        fetch(`/likeComment?id=${commentId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`likes-${data.id}`).textContent = data.likes;
+            });
+    }
+
+    // Tải bình luận khi trang tải
+    window.onload = loadComments;
+</script>
+</body>
+</html>

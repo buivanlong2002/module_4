@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans              http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context            http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc                http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx                 http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- 1. Quét các component -->
+    <context:component-scan base-package="com.example.musicbasicapp" />
+
+    <!-- 2. Cho phép dùng annotation @Controller, @RequestMapping,... -->
+    <mvc:annotation-driven />
+
+    <!-- 3. Cấu hình Thymeleaf -->
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
+        <property name="cacheable" value="false"/>
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- 4. Cấu hình kết nối Database (MySQL) -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/music_app?useSSL=false&amp;serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- 5. EntityManagerFactory (Hibernate JPA) -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.example.musicbasicapp.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <!-- Tự động cập nhật hoặc tạo bảng -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- Định nghĩa dialect cho MySQL 8+ -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+                <!-- Có thể thêm các thuộc tính khác nếu cần -->
+            </props>
+        </property>
+    </bean>
+
+    <!-- 6. Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven />
+
+    <!-- 7. Kích hoạt Spring Data JPA (tự phát hiện Repository) -->
+    <jpa:repositories base-package="com.example.musicbasicapp.repository" />
+
+</beans>
