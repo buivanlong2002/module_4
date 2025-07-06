@@ -1,0 +1,174 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Tiêu đề */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form thêm và sửa smartphone */
+#add-smartphone,
+#edit-form {
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#add-smartphone table,
+#edit-form table {
+    width: 100%;
+}
+
+#add-smartphone td,
+#edit-form td {
+    padding: 8px;
+}
+
+#add-smartphone input[type="text"],
+#add-smartphone input[type="number"],
+#edit-form input[type="text"],
+#edit-form input[type="number"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Nút submit và cancel trong form */
+#add-smartphone input[type="submit"],
+#edit-form input[type="submit"],
+#edit-form button.cancel-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+#add-smartphone input[type="submit"],
+#edit-form input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+#add-smartphone input[type="submit"]:hover,
+#edit-form input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+#edit-form button.cancel-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+#edit-form button.cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Buttons dưới tiêu đề */
+#div-btn {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+#div-btn button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#div-btn button:hover {
+    background-color: #0056b3;
+}
+
+/* Danh sách smartphone */
+#smartphoneList {
+    width: 80%;
+    margin: 30px auto 0;
+}
+
+#smartphoneList table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+#smartphoneList th,
+#smartphoneList td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#smartphoneList th {
+    background-color: #343a40;
+    color: white;
+}
+
+#smartphoneList tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#smartphoneList tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* Nút Edit & Delete trong danh sách */
+#smartphoneList button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#smartphoneList button:hover {
+    opacity: 0.9;
+}
+
+#smartphoneList .edit-btn {
+    background-color: #ffc107;
+    color: #000;
+}
+
+#smartphoneList .delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    #add-smartphone,
+    #edit-form,
+    #smartphoneList {
+        width: 95%;
+    }
+
+    #div-btn {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #div-btn button {
+        width: 90%;
+    }
+}

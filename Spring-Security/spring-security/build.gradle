@@ -1,0 +1,48 @@
+plugins {
+  id 'java'
+  id 'war'
+}
+
+group 'com'
+version '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.10.2' // mới nhất tính đến giữa 2025
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+dependencies {
+  // Vẫn dùng javax.servlet
+  compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+  // Spring Web MVC (cuối cùng còn hỗ trợ javax là 5.3.32)
+  implementation 'org.springframework:spring-webmvc:5.3.32'
+
+  // Thymeleaf Spring5
+  implementation 'org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE'
+  implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+  implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.1.RELEASE'
+
+  // Spring Security (cuối cùng hỗ trợ javax là 5.8.9)
+  implementation 'org.springframework.security:spring-security-web:5.8.9'
+  implementation 'org.springframework.security:spring-security-config:5.8.9'
+  implementation 'org.springframework.security:spring-security-taglibs:5.8.9'
+
+  // JUnit Jupiter (JUnit 5)
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+}
+
+test {
+  useJUnitPlatform()
+}

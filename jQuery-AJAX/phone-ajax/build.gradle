@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'com'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.2' // Phiên bản JUnit 5 mới nhất
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    // Servlet API (vẫn là 4.0.1, chưa có Servlet 5 stable cho Jakarta chuyển tên hoàn toàn)
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    // Spring MVC (mới nhất trong nhánh 5.x)
+    implementation 'org.springframework:spring-webmvc:5.3.38'
+
+    // Spring TX
+    implementation 'org.springframework:spring-tx:5.3.38'
+
+    // Spring Data JPA
+    implementation 'org.springframework.data:spring-data-jpa:2.7.18'
+
+    // Hibernate
+    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
+
+    // MySQL JDBC Driver
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // Jackson (JSON xử lý)
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.17.1'
+
+    // JUnit Jupiter
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+    // Lombok (mới nhất tính đến 2025)
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+}
+
+test {
+    useJUnitPlatform()
+}
